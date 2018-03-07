@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://reboot.cf/"/>
-  <updated>2018-03-06T10:16:32.000Z</updated>
+  <updated>2018-03-07T08:35:05.350Z</updated>
   <id>http://reboot.cf/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://reboot.cf/2018/03/06/%E9%80%86%E5%90%91%E7%A0%B4%E8%A7%A3%E5%AD%A6%E4%B9%A0/"/>
     <id>http://reboot.cf/2018/03/06/逆向破解学习/</id>
     <published>2018-03-06T09:26:41.000Z</published>
-    <updated>2018-03-06T10:16:32.000Z</updated>
+    <updated>2018-03-07T08:35:05.350Z</updated>
     
-    <content type="html"><![CDATA[<p>学习最艰难的是走出第一步<br><a id="more"></a></p><h1 id="查壳"><a href="#查壳" class="headerlink" title="查壳"></a>查壳</h1><p>PEiD：<br><img src="/images/PEiD_v9.4.png" alt="PEiD"></p><ol><li>查看入口点，即程序的入口地址</li><li>查看软件加的什么壳</li></ol><h1 id="调试器"><a href="#调试器" class="headerlink" title="调试器"></a>调试器</h1><p>OllyDbg:<br><img src="/images/OllyDbg_v1.10.png" alt="PEiD"></p><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://tools.pediy.com" target="_blank" rel="noopener">看雪工具</a><br><a href="https://www.kanxue.com/chm.htm" target="_blank" rel="noopener">看雪知识库</a></p>]]></content>
+    <content type="html"><![CDATA[<p>学习最艰难的是走出第一步<br><a id="more"></a></p><h1 id="查壳"><a href="#查壳" class="headerlink" title="查壳"></a>查壳</h1><p>PEiD：<br><img src="/images/PEiD_v9.4.png" alt="PEiD"></p><ol><li>查看入口点，即程序的入口地址</li><li>查看软件加的什么壳</li></ol><h1 id="调试器"><a href="#调试器" class="headerlink" title="调试器"></a>调试器</h1><p>OllyDbg:<br><img src="/images/OllyDbg_v1.10.png" alt="PEiD"></p><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://tools.pediy.com" target="_blank" rel="noopener">看雪工具</a><br><a href="https://www.kanxue.com/chm.htm" target="_blank" rel="noopener">看雪知识库</a><br><a href="https://down.52pojie.cn/Tools/Disassemblers/" target="_blank" rel="noopener">吾爱破解工具包</a></p>]]></content>
     
     <summary type="html">
     
